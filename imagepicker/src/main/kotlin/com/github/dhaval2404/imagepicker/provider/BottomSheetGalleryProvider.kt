@@ -1,12 +1,17 @@
 package com.github.dhaval2404.imagepicker.provider
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.READ_MEDIA_IMAGES
+import android.Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePickerActivity
 import com.github.dhaval2404.imagepicker.R
-import com.github.dhaval2404.imagepicker.util.getUris
+import com.github.dhaval2404.imagepicker.util.PermissionUtil
 
 /**
  * Select image from Storage
@@ -58,7 +63,27 @@ class BottomSheetGalleryProvider(activity: ImagePickerActivity) :
      * Start Gallery Intent
      */
     private fun startGalleryIntent() {
-        appImagePicker.pickImage(maxImagesNum)
+        if (PermissionUtil.isPhotoPermissionGranted(activity)){
+            appImagePicker.pickImage(maxImagesNum)
+        } else {
+            requestPhotoPermission()
+        }
+    }
+
+    // Register ActivityResult handler
+    private val requestPermissions = activity.registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { results ->
+        startGalleryIntent()
+    }
+
+    private fun requestPhotoPermission(){
+        // Permission request logic
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            requestPermissions.launch(arrayOf(READ_MEDIA_IMAGES, READ_MEDIA_VISUAL_USER_SELECTED))
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions.launch(arrayOf(READ_MEDIA_IMAGES))
+        } else {
+            requestPermissions.launch(arrayOf(READ_EXTERNAL_STORAGE))
+        }
     }
 
 //
@@ -94,31 +119,6 @@ class BottomSheetGalleryProvider(activity: ImagePickerActivity) :
         }
     }
 
-    /**
-     * This method will be called when final result fot this provider is enabled.
-     */
-    private fun handleResult(data: Intent?) {
-        val uri = data?.data
-        val clipData = data?.clipData
-        when {
-            uri != null -> {
-                takePersistableUriPermission(uri)
-                activity.setImage(uri)
-            }
-
-            clipData != null -> {
-                val uris = clipData.getUris().map {
-                    takePersistableUriPermission(it)
-                    it
-                }
-                activity.setMultipleImages(uris)
-            }
-
-            else -> {
-                setError(R.string.error_failed_pick_gallery_image)
-            }
-        }
-    }
 
     /**
      * Take a persistable URI permission grant that has been offered. Once
