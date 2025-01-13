@@ -1,12 +1,12 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
 }
 
 apply from: "../ktlint.gradle"
 
 android {
+    namespace 'com.github.dhaval2404.imagepicker.sample'
     compileSdkVersion 30
     defaultConfig {
         applicationId "com.github.dhaval2404.imagepicker.sample"
@@ -27,8 +27,11 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    buildFeatures {
+        viewBinding true
     }
 }
 
