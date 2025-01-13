@@ -7,11 +7,11 @@ plugins {
 apply from: "../ktlint.gradle"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 34
     namespace 'com.github.dhaval2404.imagepicker'
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 30
+        minSdkVersion 21
+        targetSdkVersion 34
         versionCode 16
         versionName "2.1"
 
@@ -55,6 +55,9 @@ dependencies {
 
     //More Info: https://github.com/Yalantis/uCrop
     implementation 'com.github.yalantis:ucrop:2.2.6'
+
+    implementation "androidx.activity:activity:1.9.3"
+    implementation "androidx.fragment:fragment:1.8.5"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

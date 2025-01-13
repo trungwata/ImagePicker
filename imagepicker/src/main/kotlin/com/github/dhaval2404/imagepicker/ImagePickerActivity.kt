@@ -8,10 +8,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
+import com.github.dhaval2404.imagepicker.provider.BottomSheetGalleryProvider
 import com.github.dhaval2404.imagepicker.provider.CameraProvider
 import com.github.dhaval2404.imagepicker.provider.CompressionProvider
 import com.github.dhaval2404.imagepicker.provider.CropProvider
-import com.github.dhaval2404.imagepicker.provider.GalleryProvider
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
 
 /**
@@ -34,7 +34,7 @@ class ImagePickerActivity : AppCompatActivity() {
         }
     }
 
-    private var mGalleryProvider: GalleryProvider? = null
+    private var mGalleryProvider: BottomSheetGalleryProvider? = null
     private var mCameraProvider: CameraProvider? = null
     private lateinit var mCropProvider: CropProvider
     private lateinit var mCompressionProvider: CompressionProvider
@@ -71,7 +71,7 @@ class ImagePickerActivity : AppCompatActivity() {
         // Create Gallery/Camera Provider
         when (provider) {
             ImageProvider.GALLERY -> {
-                mGalleryProvider = GalleryProvider(this)
+                mGalleryProvider = BottomSheetGalleryProvider(this)
                 // Pick Gallery Image
                 savedInstanceState ?: mGalleryProvider?.startIntent()
             }
@@ -107,7 +107,7 @@ class ImagePickerActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         mCameraProvider?.onActivityResult(requestCode, resultCode, data)
-        mGalleryProvider?.onActivityResult(requestCode, resultCode, data)
+//        mGalleryProvider?.onActivityResult(requestCode, resultCode, data)
         mCropProvider.onActivityResult(requestCode, resultCode, data)
     }
 

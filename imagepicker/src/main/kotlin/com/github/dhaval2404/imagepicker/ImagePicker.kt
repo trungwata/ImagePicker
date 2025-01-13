@@ -40,6 +40,8 @@ open class ImagePicker {
         internal const val EXTRA_ERROR = "extra.error"
         internal const val EXTRA_FILE_PATH = "extra.file_path"
         internal const val EXTRA_MIME_TYPES = "extra.mime_types"
+        internal const val EXTRA_MAX_IMAGES_NUM = "extra.max_images"
+        internal const val DEFAULT_MAX_IMAGES_NUM = 4
 
         /**
          * Use this to use ImagePicker in Activity Class
@@ -127,6 +129,9 @@ open class ImagePicker {
          * If null, Image will be stored in "{fileDir}/Images"
          */
         private var multiplePicker: Boolean = false
+
+
+        private var maxImagesNum: Int = 4
 
         /**
          * Call this while picking image for fragment.
@@ -275,6 +280,10 @@ open class ImagePicker {
             return this
         }
 
+        fun setMaxImages(maxImages: Int) :Builder {
+            this.maxImagesNum = maxImages
+            return this
+        }
 
         /**
          * Start Image Picker Activity
@@ -368,6 +377,8 @@ open class ImagePicker {
                 putString(EXTRA_SAVE_DIRECTORY, saveDir)
 
                 putBoolean(EXTRA_MULTIPLE_PICKER, multiplePicker)
+
+                putInt(EXTRA_MAX_IMAGES_NUM, maxImagesNum)
             }
         }
 

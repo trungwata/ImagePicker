@@ -102,6 +102,8 @@ class MainActivity : AppCompatActivity() {
             .crop()
             // User can only select image from Gallery
             .galleryOnly()
+            .multiplePicker(true)
+            .setMaxImages(2)
 
             .galleryMimeTypes( // no gif images at all
                 mimeTypes = arrayOf(

@@ -122,6 +122,7 @@ public class SampleActivity extends AppCompatActivity {
                 .crop()
                 // User can only select image from Gallery
                 .galleryOnly()
+                .setMaxImages(2)
 
                 .galleryMimeTypes(new String[]{"image/png",
                         "image/jpg",

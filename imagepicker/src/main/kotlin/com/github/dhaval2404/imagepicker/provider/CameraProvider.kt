@@ -124,7 +124,7 @@ class CameraProvider(activity: ImagePickerActivity) : BaseProvider(activity) {
         // Check if file exists
         if (file != null && file.exists()) {
             val cameraIntent = IntentUtils.getCameraIntent(this, file)
-            activity.startActivityForResult(cameraIntent, CAMERA_INTENT_REQ_CODE)
+            activity.startActivityForResult(cameraIntent!!, CAMERA_INTENT_REQ_CODE)
         } else {
             setError(R.string.error_failed_to_create_camera_image_file)
         }
