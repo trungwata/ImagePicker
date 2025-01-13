@@ -14,13 +14,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.github.dhaval2404.imagepicker.sample.databinding.ActivityMainBinding
 import com.github.dhaval2404.imagepicker.sample.util.FileUtil
 import com.github.dhaval2404.imagepicker.sample.util.IntentUtil
 import com.github.dhaval2404.imagepicker.util.IntentUtils
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_camera_only.*
-import kotlinx.android.synthetic.main.content_gallery_only.*
-import kotlinx.android.synthetic.main.content_profile.*
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -37,13 +34,14 @@ class MainActivity : AppCompatActivity() {
     private var mCameraUri: Uri? = null
     private var mGalleryUri: Uri? = null
     private var mProfileUri: Uri? = null
-
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
-        imgProfile.setDrawableImage(R.drawable.ic_person, true)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+        binding.content.profile.imgProfile.setDrawableImage(R.drawable.ic_person, true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -165,15 +163,15 @@ class MainActivity : AppCompatActivity() {
             when (requestCode) {
                 PROFILE_IMAGE_REQ_CODE -> {
                     mProfileUri = uri
-                    imgProfile.setLocalImage(uri, true)
+                    binding.content.profile.imgProfile.setLocalImage(uri, true)
                 }
                 GALLERY_IMAGE_REQ_CODE -> {
                     mGalleryUri = uri
-                    imgGallery.setLocalImage(uri)
+                    binding.content.galleryOnly.imgGallery.setLocalImage(uri)
                 }
                 CAMERA_IMAGE_REQ_CODE -> {
                     mCameraUri = uri
-                    imgCamera.setLocalImage(uri)
+                    binding.content.cameraOnly.imgCamera.setLocalImage(uri)
                 }
             }
         } else if (resultCode == ImagePicker.RESULT_ERROR) {
@@ -184,6 +182,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showImageCode(view: View) {
+        val imgProfileCode = binding.content.profile.imgProfileCode
+        val imgCameraCode = binding.content.cameraOnly.imgCameraCode
+        val imgGalleryCode = binding.content.galleryOnly.imgGalleryCode
         val resource = when (view) {
             imgProfileCode -> R.drawable.img_profile_code
             imgCameraCode -> R.drawable.img_camera_code
@@ -194,6 +195,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showImage(view: View) {
+        val imgProfile = binding.content.profile.imgProfile
+        val imgCamera = binding.content.cameraOnly.imgCamera
+        val imgGallery = binding.content.galleryOnly.imgGallery
         val uri = when (view) {
             imgProfile -> mProfileUri
             imgCamera -> mCameraUri
@@ -207,6 +211,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showImageInfo(view: View) {
+        val imgProfileInfo = binding.content.profile.imgProfileInfo
+        val imgCameraInfo = binding.content.cameraOnly.imgCameraInfo
+        val imgGalleryInfo = binding.content.galleryOnly.imgGalleryInfo
         val uri = when (view) {
             imgProfileInfo -> mProfileUri
             imgCameraInfo -> mCameraUri
