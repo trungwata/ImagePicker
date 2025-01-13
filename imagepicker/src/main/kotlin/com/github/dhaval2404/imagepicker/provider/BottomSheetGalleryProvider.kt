@@ -3,6 +3,7 @@ package com.github.dhaval2404.imagepicker.provider
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.READ_MEDIA_IMAGES
 import android.Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -68,11 +69,11 @@ class BottomSheetGalleryProvider(activity: ImagePickerActivity) :
     private fun requestPhotoPermission(){
         // Permission request logic
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            requestPermissions.launch(arrayOf(READ_MEDIA_IMAGES, READ_MEDIA_VISUAL_USER_SELECTED))
+            requestPermissions.launch(arrayOf(READ_MEDIA_IMAGES, READ_MEDIA_VISUAL_USER_SELECTED, WRITE_EXTERNAL_STORAGE))
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requestPermissions.launch(arrayOf(READ_MEDIA_IMAGES))
+            requestPermissions.launch(arrayOf(READ_MEDIA_IMAGES, WRITE_EXTERNAL_STORAGE))
         } else {
-            requestPermissions.launch(arrayOf(READ_EXTERNAL_STORAGE))
+            requestPermissions.launch(arrayOf(READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE))
         }
     }
 
