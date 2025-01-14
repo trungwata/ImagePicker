@@ -6,14 +6,18 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.StatFs
+import androidx.core.net.toFile
 import androidx.documentfile.provider.DocumentFile
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
 
 /**
  * File Utility Methods
@@ -128,22 +132,34 @@ object FileUtil {
      */
     fun getTempFile(context: Context, uri: Uri): File? {
         try {
+            val src = uri.toFile()
             val destination = File(context.cacheDir, "image_picker.png")
-
-            val parcelFileDescriptor = context.contentResolver.openFileDescriptor(uri, "r")
-            val fileDescriptor = parcelFileDescriptor?.fileDescriptor ?: return null
-
-            val src = FileInputStream(fileDescriptor).channel
-            val dst = FileOutputStream(destination).channel
-            dst.transferFrom(src, 0, src.size())
-            src.close()
-            dst.close()
-
+            copy(src, destination)
             return destination
         } catch (ex: IOException) {
             ex.printStackTrace()
         }
         return null
+    }
+
+    @Throws(IOException::class)
+    fun copy(src: File?, dst: File?) {
+        val `in`: InputStream = FileInputStream(src)
+        try {
+            val out: OutputStream = FileOutputStream(dst)
+            try {
+                // Transfer bytes from in to out
+                val buf = ByteArray(1024)
+                var len: Int
+                while ((`in`.read(buf).also { len = it }) > 0) {
+                    out.write(buf, 0, len)
+                }
+            } finally {
+                out.close()
+            }
+        } finally {
+            `in`.close()
+        }
     }
 
     /**
