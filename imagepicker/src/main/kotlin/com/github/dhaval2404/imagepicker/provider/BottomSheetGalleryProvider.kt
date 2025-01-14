@@ -4,6 +4,7 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.READ_MEDIA_IMAGES
 import android.Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -88,10 +89,22 @@ class BottomSheetGalleryProvider(activity: ImagePickerActivity) :
             setError(R.string.error_failed_pick_gallery_image)
             return
         }
+        imageUris.forEach {
+            takePersistableUriPermission(it)
+        }
         if (imageUris.size == 1) {
             activity.setImage(imageUris.first())
         } else {
             activity.setMultipleImages(imageUris)
         }
     }
+
+    /**
+     * Take a persistable URI permission grant that has been offered. Once
+     * taken, the permission grant will be remembered across device reboots.
+     */
+    private fun takePersistableUriPermission(uri: Uri) {
+        val name = activity.packageName
+        activity.grantUriPermission(name, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)    }
+
 }

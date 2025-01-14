@@ -97,14 +97,14 @@ class MainActivity : AppCompatActivity() {
     @Suppress("UNUSED_PARAMETER")
     fun pickGalleryImage(view: View) {
         ImagePicker.with(this)
-            .multiplePicker(false)
-            // Crop Image(User can choose Aspect Ratio)
-            .crop()
-            // User can only select image from Gallery
-            .galleryOnly()
+            .setMaxImages(3)
+            .compress(1024)            //Final image size will be less than 1 MB(Optional)
+            .maxResultSize(
+                1080,
+                1080
+            )    //Final image resolution will be less than 1080 x 1080(Optional)
             .maxResultSize(1000, 1000)
             .multiplePicker(true)
-            .setMaxImages(2)
 
             .galleryMimeTypes( // no gif images at all
                 mimeTypes = arrayOf(
