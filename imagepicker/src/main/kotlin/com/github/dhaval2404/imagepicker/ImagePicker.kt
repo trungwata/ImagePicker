@@ -41,7 +41,7 @@ open class ImagePicker {
         internal const val EXTRA_FILE_PATH = "extra.file_path"
         internal const val EXTRA_MIME_TYPES = "extra.mime_types"
         internal const val EXTRA_MAX_IMAGES_NUM = "extra.max_images"
-        internal const val DEFAULT_MAX_IMAGES_NUM = 4
+        internal const val DEFAULT_MAX_IMAGES_NUM = 1
 
         /**
          * Use this to use ImagePicker in Activity Class
