@@ -102,6 +102,7 @@ class MainActivity : AppCompatActivity() {
             .crop()
             // User can only select image from Gallery
             .galleryOnly()
+            .maxResultSize(1000, 1000)
             .multiplePicker(true)
             .setMaxImages(2)
 

@@ -203,11 +203,11 @@ object FileUtil {
      */
     fun getImageExtension(uriImage: Uri): String {
         var extension: String? = null
-
         try {
             val imagePath = uriImage.path
-            if (imagePath != null && imagePath.lastIndexOf(".") != -1) {
-                extension = imagePath.substring(imagePath.lastIndexOf(".") + 1)
+            val nameWithExt = imagePath?.split('/')?.lastOrNull() ?: ""
+            if (imagePath != null && nameWithExt.lastIndexOf(".") != -1) {
+                extension = nameWithExt.substring(nameWithExt.lastIndexOf(".") + 1)
             }
         } catch (e: Exception) {
             extension = null
