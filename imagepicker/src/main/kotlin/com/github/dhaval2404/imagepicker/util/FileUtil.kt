@@ -132,9 +132,24 @@ object FileUtil {
      */
     fun getTempFile(context: Context, uri: Uri): File? {
         try {
-            val src = uri.toFile()
             val destination = File(context.cacheDir, "image_picker.png")
-            copy(src, destination)
+
+            val parcelFileDescriptor = context.contentResolver.openFileDescriptor(uri, "r")
+            val fileDescriptor = parcelFileDescriptor?.fileDescriptor ?: return null
+
+            val src = FileInputStream(fileDescriptor)
+            val dst = FileOutputStream(destination)
+            try {
+                // Transfer bytes from in to out
+                val buf = ByteArray(1024)
+                var len: Int
+                while ((src.read(buf).also { len = it }) > 0) {
+                    dst.write(buf, 0, len)
+                }
+            } finally {
+                src.close()
+                dst.close()
+            }
             return destination
         } catch (ex: IOException) {
             ex.printStackTrace()
@@ -142,25 +157,6 @@ object FileUtil {
         return null
     }
 
-    @Throws(IOException::class)
-    fun copy(src: File?, dst: File?) {
-        val `in`: InputStream = FileInputStream(src)
-        try {
-            val out: OutputStream = FileOutputStream(dst)
-            try {
-                // Transfer bytes from in to out
-                val buf = ByteArray(1024)
-                var len: Int
-                while ((`in`.read(buf).also { len = it }) > 0) {
-                    out.write(buf, 0, len)
-                }
-            } finally {
-                out.close()
-            }
-        } finally {
-            `in`.close()
-        }
-    }
 
     /**
      * Get DocumentFile from Uri
