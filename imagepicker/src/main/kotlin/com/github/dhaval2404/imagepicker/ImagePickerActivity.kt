@@ -129,11 +129,10 @@ class ImagePickerActivity : AppCompatActivity() {
      * @param uri Capture/Gallery image Uri
      */
     fun setImage(uri: Uri) {
-        setResult(uri)
-//        when {
-//            mCropProvider.isCropEnabled() -> mCropProvider.startIntent(uri)
-//            else -> mCompressionProvider.compressIfRequired(uri)
-//        }
+        when {
+            mCropProvider.isCropEnabled() -> mCropProvider.startIntent(uri)
+            else -> mCompressionProvider.compressIfRequired(uri)
+        }
     }
 
     /**
@@ -142,8 +141,7 @@ class ImagePickerActivity : AppCompatActivity() {
      * @param uri Capture/Gallery image Uri
      */
     fun setMultipleImages(uri: List<Uri>) {
-        setResult(uri)
-//        mCompressionProvider.compressIfRequired(uri)
+        mCompressionProvider.compressIfRequired(uri)
     }
 
 
