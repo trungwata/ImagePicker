@@ -131,7 +131,7 @@ open class ImagePicker {
         private var multiplePicker: Boolean = false
 
 
-        private var maxImagesNum: Int = 4
+        private var maxImagesNum: Int = DEFAULT_MAX_IMAGES_NUM
 
         /**
          * Call this while picking image for fragment.
