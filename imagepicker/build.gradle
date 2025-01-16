@@ -59,6 +59,9 @@ dependencies {
     implementation "androidx.activity:activity:1.9.3"
     implementation "androidx.fragment:fragment:1.8.5"
 
+    // Optimized compress image lib
+    implementation 'id.zelory:compressor:3.0.1'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test:core:1.3.0'

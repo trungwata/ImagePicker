@@ -12,6 +12,7 @@ import com.github.dhaval2404.imagepicker.provider.BottomSheetGalleryProvider
 import com.github.dhaval2404.imagepicker.provider.CameraProvider
 import com.github.dhaval2404.imagepicker.provider.CompressionProvider
 import com.github.dhaval2404.imagepicker.provider.CropProvider
+import com.github.dhaval2404.imagepicker.provider.OptimizedCompressionProvider
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
 
 /**
@@ -37,7 +38,7 @@ class ImagePickerActivity : AppCompatActivity() {
     private var mGalleryProvider: BottomSheetGalleryProvider? = null
     private var mCameraProvider: CameraProvider? = null
     private lateinit var mCropProvider: CropProvider
-    private lateinit var mCompressionProvider: CompressionProvider
+    private lateinit var mCompressionProvider: OptimizedCompressionProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +63,7 @@ class ImagePickerActivity : AppCompatActivity() {
         mCropProvider.onRestoreInstanceState(savedInstanceState)
 
         // Create Compression Provider
-        mCompressionProvider = CompressionProvider(this)
+        mCompressionProvider = OptimizedCompressionProvider(this)
 
         // Retrieve Image Provider
         val provider: ImageProvider? =
